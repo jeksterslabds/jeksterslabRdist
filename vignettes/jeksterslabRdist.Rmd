@@ -30,3 +30,8 @@ You can install the released version of `jeksterslabRdist` from [GitHub](https:/
 library(devtools)
 install_github("jeksterslabds/jeksterslabRdist")
 ```
+
+## Example
+
+See [GitHub Pages](https://jeksterslabds.github.io/jeksterslabRdist/index.html)
+for package documentation.

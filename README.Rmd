@@ -29,7 +29,8 @@ knitr::opts_chunk$set(
 You can install the released version of `jeksterslabRdist` from [GitHub](https://github.com/jeksterslabds/jeksterslabRdist) with:
 
 ```r
-remotes::install_github("jeksterslabds/jeksterslabRdist")
+library(devtools)
+install_github("jeksterslabds/jeksterslabRdist")
 ```
 
 ## Example

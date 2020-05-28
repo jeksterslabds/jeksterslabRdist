@@ -1,7 +1,7 @@
 jeksterslabRdist
 ================
 Ivan Jacob Agaloos Pesigan
-2020-05-26
+2020-05-28
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -23,7 +23,8 @@ You can install the released version of `jeksterslabRdist` from
 [GitHub](https://github.com/jeksterslabds/jeksterslabRdist) with:
 
 ``` r
-remotes::install_github("jeksterslabds/jeksterslabRdist")
+library(devtools)
+install_github("jeksterslabds/jeksterslabRdist")
 ```
 
 ## Example
