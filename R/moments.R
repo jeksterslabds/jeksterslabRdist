@@ -21,6 +21,7 @@
 #'   From 0 to 4.
 #' @references
 #'   [Wikipedia: Central Moment](https://en.wikipedia.org/wiki/Central_moment)
+#' @family moments functions
 #' @export
 moment <- function(x, j) {
   if (j %in% c(0, 1, 2, 3, 4)) {
@@ -51,6 +52,7 @@ moment <- function(x, j) {
 #' @param x Numeric vector.
 #' @references
 #'   [Wikipedia: Central Moment](https://en.wikipedia.org/wiki/Central_moment)
+#' @family moments functions
 #' @export
 m4 <- function(x) {
   moment(
@@ -83,6 +85,7 @@ m4 <- function(x) {
 #' @references
 #'   [Wikipedia: Kurtosis](https://en.wikipedia.org/wiki/Kurtosis)
 #' @importFrom stats var
+#' @family moments functions
 #' @export
 kurtosis <- function(x, excess = FALSE) {
   out <- m4(x) / (var(x)^2)
