@@ -45,10 +45,10 @@
 #'       \right]
 #'   }
 #' with
-#' \eqn{x \in \mathbb{R}},
+#' \eqn{x \in \mathbf{R}},
 #' \eqn{\mu}
 #' is the location parameter mean
-#' (\eqn{\mu \in \mathbb{R}}),
+#' (\eqn{\mu \in \mathbf{R}}),
 #' and
 #' \eqn{\sigma^2}
 #' is the scale parameter variance
@@ -153,10 +153,10 @@ normal_pdf <- function(x,
 #'     }
 #' with
 #' independent and identically distributed
-#' sample data \eqn{x \in \mathbb{R}},
+#' sample data \eqn{x \in \mathbf{R}},
 #' \eqn{\mu}
 #' is the location parameter mean being estimated
-#' (\eqn{\mu \in \mathbb{R}}),
+#' (\eqn{\mu \in \mathbf{R}}),
 #' and
 #' \eqn{\sigma^2}
 #' is the scale parameter variance being estimated
@@ -238,10 +238,10 @@ normal_L <- function(mu,
 #'   }
 #' with
 #' independent and identically distributed
-#' sample data \eqn{x \in \mathbb{R}},
+#' sample data \eqn{x \in \mathbf{R}},
 #' \eqn{\mu}
 #' is the location parameter mean being estimated
-#' (\eqn{\mu \in \mathbb{R}}),
+#' (\eqn{\mu \in \mathbf{R}}),
 #' and
 #' \eqn{\sigma^2}
 #' is the scale parameter variance being estimated
@@ -348,10 +348,10 @@ normal_ll <- function(mu,
 #'   }
 #' with
 #' independent and identically distributed
-#' sample data \eqn{x \in \mathbb{R}},
+#' sample data \eqn{x \in \mathbf{R}},
 #' \eqn{\mu}
 #' is the location parameter mean being estimated
-#' (\eqn{\mu \in \mathbb{R}}),
+#' (\eqn{\mu \in \mathbf{R}}),
 #' and
 #' \eqn{\sigma^2}
 #' is the scale parameter variance being estimated
