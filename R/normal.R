@@ -166,7 +166,7 @@ normal_pdf <- function(x,
 #' @references
 #'   [Wikipedia: Normal Distribution](https://en.wikipedia.org/wiki/Normal_distribution)
 #'
-#'   [Wikipedia: Independent and Identically Distributed Random Variables](https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables)
+#'   [Wikipedia: Independent and Identically Distributed](https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables)
 #'
 #'   [Wikipedia: Likelihood Function](https://en.wikipedia.org/wiki/Likelihood_function)
 #' @family normal likelihood functions
