@@ -56,10 +56,11 @@
 #'
 #' @author Ivan Jacob Agaloos Pesigan
 #' @param x Numeric vector.
-#'   Input.
-#' @param mu Numeric vector.
+#'   Values of the random variable \eqn{X}.
+#' @param mu Numeric.
 #'   Location parameter mean (\eqn{\mu}).
-#' @param sigma Numeric vector consisting of positive numbers.
+#' @param sigma Numeric.
+#'   Positive number.
 #'   Scale parameter standard deviation (\eqn{\sigma = \sqrt{\sigma^2}}).
 #' @param log Logical.
 #'   If `TRUE`,
@@ -84,12 +85,10 @@ normal_pdf <- function(x,
   out
 }
 
-#' Normal - Negative Log-Likelihood
+#' Normal - Likelihood
 #'
-#' Calculates the negative log-likelihood of \eqn{x}
+#' Calculates the likelihood of \eqn{X}
 #' following a normal distribution.
-#' This function is identical to
-#' `-sum(dnorm(x = x, mean = theta[1], sd = theta[2], log = TRUE))`.
 #'
 #' The likelihood function for the normal (or Gaussian or Gauss or Laplace–Gauss)
 #' distribution is given by
@@ -163,7 +162,29 @@ normal_pdf <- function(x,
 #' is the scale parameter variance being estimated
 #' (\eqn{\sigma^2 > 0}).
 #'
-#' The natural log of the likelihood function is given by
+#' @inheritParams normal_pdf
+#' @references
+#'   [Wikipedia: Normal Distribution](https://en.wikipedia.org/wiki/Normal_distribution)
+#'
+#'   [Wikipedia: Independent and Identically Distributed Random Variables](https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables)
+#'
+#'   [Wikipedia: Likelihood Function](https://en.wikipedia.org/wiki/Likelihood_function)
+#' @family normal likelihood functions
+#' @export
+normal_L <- function(mu,
+                     sigma,
+                     x) {
+  # likelihood
+  ((1 / sqrt(2 * pi * sigma^2))^(length(x))) * exp((-1 / (2 * sigma^2)) * sum((x - mu)^2))
+}
+
+#' Normal - Log-Likelihood
+#'
+#' Calculates the log-likelihood of \eqn{X}
+#' following a normal distribution.
+#'
+#' The natural log of the likelihood function for the normal (or Gaussian or Gauss or Laplace–Gauss)
+#' distribution is given by
 #'   \deqn{
 #'     \ln
 #'     \mathcal{L}
@@ -173,6 +194,37 @@ normal_pdf <- function(x,
 #'         \mid
 #'         x
 #'       \right)
+#'     =
+#'     \mathcal{l}
+#'       \left(
+#'         \mu,
+#'         \sigma^2
+#'         \mid
+#'         x
+#'       \right) \\
+#'     \mathcal{l}
+#'       \left(
+#'         \mu,
+#'         \sigma^2
+#'         \mid
+#'         x
+#'       \right)
+#'     =
+#'     \ln
+#'     \left\{
+#'       \left(
+#'         \frac{1}{\sqrt{2 \pi \sigma^2}}
+#'       \right)^n
+#'       \exp
+#'         \left[
+#'           -
+#'           \frac{1}{2 \sigma^2}
+#'           \sum_{i = 1}^{n}
+#'           \left(
+#'             x_i - \mu
+#'           \right)^2
+#'         \right]
+#'     \right\} \\
 #'     =
 #'     -
 #'     \frac{n}{2}
@@ -184,18 +236,40 @@ normal_pdf <- function(x,
 #'       x_i - \mu
 #'     \right)^2 .
 #'   }
+#' with
+#' independent and identically distributed
+#' sample data \eqn{x \in \mathbb{R}},
+#' \eqn{\mu}
+#' is the location parameter mean being estimated
+#' (\eqn{\mu \in \mathbb{R}}),
+#' and
+#' \eqn{\sigma^2}
+#' is the scale parameter variance being estimated
+#' (\eqn{\sigma^2 > 0}).
 #'
 #' The negative log-likelihood is given by
 #'   \deqn{
 #'     -
-#'     \ln
-#'     \mathcal{L}
+#'     \mathcal{l}
 #'       \left(
 #'         \mu,
 #'         \sigma^2
 #'         \mid
 #'         x
 #'       \right)
+#'     =
+#'     -
+#'     \left[
+#'       -
+#'       \frac{n}{2}
+#'       \ln 2 \pi \sigma^2
+#'       -
+#'       \frac{1}{2 \sigma^2}
+#'       \sum_{i = 1}^{n}
+#'       \left(
+#'         x_i - \mu
+#'       \right)^2
+#'     \right] \\
 #'     =
 #'     \frac{n}{2}
 #'     \ln 2 \pi \sigma^2
@@ -207,22 +281,166 @@ normal_pdf <- function(x,
 #'     \right)^2 .
 #'   }
 #'
+#' @param neg Logical.
+#'   If `TRUE`,
+#'   returns,
+#'   negative log-likelihood.
+#' @inheritParams normal_pdf
+#' @inherit normal_L references
+#' @family normal likelihood functions
+#' @export
+normal_ll <- function(mu,
+                      sigma,
+                      x,
+                      neg = TRUE) {
+  if (neg) {
+    # negative log-likelihood
+    return(
+      (length(x) / 2) * log(2 * pi * sigma^2) + (1 / (2 * sigma^2)) * sum((x - mu)^2)
+    )
+  } else {
+    # log-likelihood
+    return(
+      (-length(x) / 2) * log(2 * pi * sigma^2) - (1 / (2 * sigma^2)) * sum((x - mu)^2)
+    )
+  }
+}
+
+#' Normal - Two Log-Likelihood
+#'
+#' Calculates the two log-likelihood of \eqn{X}
+#' following a normal distribution.
+#'
+#' The two log-likelihood for the normal (or Gaussian or Gauss or Laplace–Gauss)
+#' distribution is given by
+#'   \deqn{
+#'     2
+#'     \mathcal{l}
+#'       \left(
+#'         \mu,
+#'         \sigma^2
+#'         \mid
+#'         x
+#'       \right)
+#'     =
+#'     2
+#'     \left[
+#'       -
+#'       \frac{n}{2}
+#'       \ln 2 \pi \sigma^2
+#'       -
+#'       \frac{1}{2 \sigma^2}
+#'       \sum_{i = 1}^{n}
+#'       \left(
+#'         x_i - \mu
+#'       \right)^2
+#'     \right] \\
+#'     =
+#'     -
+#'     n
+#'     \ln 2 \pi \sigma^2
+#'     -
+#'     \frac{1}{\sigma^2}
+#'     \sum_{i = 1}^{n}
+#'     \left(
+#'       x_i - \mu
+#'     \right)^2
+#'   }
+#' with
+#' independent and identically distributed
+#' sample data \eqn{x \in \mathbb{R}},
+#' \eqn{\mu}
+#' is the location parameter mean being estimated
+#' (\eqn{\mu \in \mathbb{R}}),
+#' and
+#' \eqn{\sigma^2}
+#' is the scale parameter variance being estimated
+#' (\eqn{\sigma^2 > 0}).
+#'
+#' The negative two log-likelihood is given by
+#'   \deqn{
+#'     -
+#'     2
+#'     \mathcal{l}
+#'       \left(
+#'         \mu,
+#'         \sigma^2
+#'         \mid
+#'         x
+#'       \right)
+#'     =
+#'     -
+#'     2
+#'     \left[
+#'       -
+#'       \frac{n}{2}
+#'       \ln 2 \pi \sigma^2
+#'       -
+#'       \frac{1}{2 \sigma^2}
+#'       \sum_{i = 1}^{n}
+#'       \left(
+#'         x_i - \mu
+#'       \right)^2
+#'     \right] \\
+#'     =
+#'     n
+#'     \ln 2 \pi \sigma^2
+#'     +
+#'     \frac{1}{\sigma^2}
+#'     \sum_{i = 1}^{n}
+#'     \left(
+#'       x_i - \mu
+#'     \right)^2 .
+#'   }
+#'
+#' @param neg Logical.
+#'   If `TRUE`,
+#'   returns,
+#'   negative two log-likelihood.
+#' @inheritParams normal_pdf
+#' @inherit normal_L references
+#' @family normal likelihood functions
+#' @export
+normal_2ll <- function(mu,
+                       sigma,
+                       x,
+                       neg = TRUE) {
+  if (neg) {
+    # negative 2 log-likelihood
+    return(
+      length(x) * log(2 * pi * sigma^2) + ((1 / sigma^2) * sum((x - mu)^2))
+    )
+  } else {
+    # 2 log-likelihood
+    return(
+      -length(x) * log(2 * pi * sigma^2) - ((1 / sigma^2) * sum((x - mu)^2))
+    )
+  }
+}
+
+#' Normal Distribution - Objective Function
+#'
+#' Objective function to minimize/maximize
+#' to estimate parameters of the normal distribution.
+#' See [`normal_2ll()`].
+#'
 #' @author Ivan Jacob Agaloos Pesigan
 #' @param theta Vector of parameters \eqn{\theta} of the normal distribution
 #'   (`theta[1] = mu` (\eqn{\mu}) and `theta[2] = sigma` (\eqn{\sigma})).
-#' @param x Numeric vector.
-#'   Independent and identically distributed sample data.
-#' @references
-#'   [Wikipedia: Normal Distribution](https://en.wikipedia.org/wiki/Normal_distribution)
-#'
-#'   [Wikipedia: Independent and Identically Distributed Random Variables](https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables)
-#'
-#'   [Wikipedia: Likelihood Function](https://en.wikipedia.org/wiki/Likelihood_function)
+#' @inheritParams normal_ll
+#' @inherit normal_L references
+#' @family normal likelihood functions
 #' @export
-normal_negll <- function(theta,
-                         x) {
+normal_obj <- function(theta,
+                       x,
+                       neg = TRUE) {
   if (theta[2] < 0) {
     return(NA)
   }
-  (length(x) / 2) * log(2 * pi * theta[2]^2) + (1 / (2 * theta[2]^2)) * sum((x - theta[1])^2)
+  normal_2ll(
+    mu = theta[1],
+    sigma = theta[2],
+    x = x,
+    neg = neg
+  )
 }
