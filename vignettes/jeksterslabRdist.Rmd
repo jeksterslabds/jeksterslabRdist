@@ -1,0 +1,37 @@
+---
+title: "Introduction to jeksterslabRdist"
+author: "Ivan Jacob Agaloos Pesigan"
+date: "`r Sys.Date()`"
+description: >
+  Learn how to get started with the basics of jeksterslabRdist.
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Introduction to jeksterslabRdist}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+`jeksterslabRdist` is a collection of functions that I find useful in studying probability distributions.
+
+## Installation
+
+You can install the released version of `jeksterslabRdist` from [GitHub](https://github.com/jeksterslabds/jeksterslabRdist) with:
+
+```r
+library(devtools)
+install_github("jeksterslabds/jeksterslabRdist")
+```
+
+## Example
+
+See [GitHub Pages](https://jeksterslabds.github.io/jeksterslabRdist/index.html)
+for package documentation.

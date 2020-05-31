@@ -11,7 +11,7 @@
 #'
 #+ setup
 library(testthat)
-library(jeksterslabRdata)
+library(jeksterslabRdist)
 context("Test z.")
 #'
 #' ## Set test parameters

@@ -1,5 +1,5 @@
-# jeksterslabRdata 0.9.0
+# jeksterslabRdist 0.9.0
 
 ## Major changes
 
-* This is the first release of jeksterslabRdata.
+* This is the first release of jeksterslabRdist.

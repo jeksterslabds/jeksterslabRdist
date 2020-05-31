@@ -50,7 +50,7 @@ hist(x)
 ### Calculating $z$-scores
 
 ```{r, plot2, fig.caption="Histogram 2"}
-library(jeksterslabRdata)
+library(jeksterslabRdist)
 std <- z(x = x, mu = 100, sigma = 15)
 hist(std, main = "Histogram of z")
 ```

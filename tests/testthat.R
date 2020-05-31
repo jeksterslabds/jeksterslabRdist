@@ -1,4 +1,4 @@
 library(testthat)
-library(jeksterslabRdata)
+library(jeksterslabRdist)
 
-test_check("jeksterslabRdata")
+test_check("jeksterslabRdist")

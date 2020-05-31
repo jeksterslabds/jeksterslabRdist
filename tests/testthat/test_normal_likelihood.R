@@ -1,0 +1,290 @@
+#' ---
+#' title: "Test: Normal - Likelihood"
+#' author: "Ivan Jacob Agaloos Pesigan"
+#' date: "`r Sys.Date()`"
+#' output: rmarkdown::html_vignette
+#' vignette: >
+#'   %\VignetteIndexEntry{Test: Normal - Likelihood}
+#'   %\VignetteEngine{knitr::rmarkdown}
+#'   %\VignetteEncoding{UTF-8}
+#' ---
+#'
+#+ knitr_options, include=FALSE, cache=FALSE
+knitr::opts_chunk$set(
+  error = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "100%"
+)
+#'
+#+ setup
+library(testthat)
+library(microbenchmark)
+library(jeksterslabRdist)
+context("Test Normal - Likelihood.")
+#'
+#' ## Parameters
+#'
+#+ parameters
+n <- 50
+mu <- runif(
+  n = 1,
+  min = -1,
+  max = 1
+)
+sigma <- runif(
+  n = 1,
+  min = 1,
+  max = 2
+)
+Variable <- c(
+  "`n`",
+  "`mu`",
+  "`sigma`"
+)
+Description <- c(
+  "Sample size ($n$).",
+  "Population mean ($\\mu$).",
+  "Population standard deviation ($\\sigma$)."
+)
+Value <- c(
+  n,
+  mu,
+  sigma
+)
+knitr::kable(
+  x = data.frame(
+    Variable,
+    Description,
+    Value
+  ),
+  row.names = FALSE
+)
+#'
+#' ## Generate Data
+#'
+#+ generate_data
+x <- rnorm(
+  n = n,
+  mean = mu,
+  sd = sigma
+)
+x_bar <- mean(x)
+s <- sd(x)
+Variable <- c(
+  "`n`",
+  "`x_bar`",
+  "`s`"
+)
+Description <- c(
+  "Sample size ($n$).",
+  "Sample mean ($\\bar{x}$).",
+  "Sample standard deviation ($s$)."
+)
+Value <- c(
+  n,
+  x_bar,
+  s
+)
+knitr::kable(
+  x = data.frame(
+    Variable,
+    Description,
+    Value
+  ),
+  row.names = FALSE
+)
+#'
+#' ## Likelihood
+#'
+#+ likelihood
+results_dnorm_L <- prod(
+  dnorm(
+    x = x,
+    mean = mu,
+    sd = sigma,
+    log = FALSE
+  )
+)
+results_dnorm_ll <- -1 * sum(
+  dnorm(
+    x = x,
+    mean = mu,
+    sd = sigma,
+    log = TRUE
+  )
+)
+results_dnorm_2ll <- -2 * sum(
+  dnorm(
+    x = x,
+    mean = mu,
+    sd = sigma,
+    log = TRUE
+  )
+)
+results_normal_L <- normal_L(
+  mu = mu,
+  sigma = sigma,
+  x = x
+)
+results_normal_ll <- normal_ll(
+  mu = mu,
+  sigma = sigma,
+  x = x,
+  neg = TRUE
+)
+results_normal_ll_L <- -1 * log(results_normal_L)
+results_normal_2ll <- normal_2ll(
+  mu = mu,
+  sigma = sigma,
+  x = x,
+  neg = TRUE
+)
+results_normal_2ll_L <- -2 * log(results_normal_L)
+#'
+#' ## Maximum Likelihood Estimation
+#'
+#+ ml
+foo <- function(theta, x) {
+  -2 * sum(
+    dnorm(
+      x = x,
+      mean = theta[1],
+      sd = theta[2],
+      log = TRUE
+    )
+  )
+}
+results_ml_dnorm <- opt(
+  FUN = foo,
+  start_values = c(mu, sigma),
+  optim = TRUE,
+  x = x
+)
+results_ml_normal_2ll <- opt(
+  FUN = normal_obj,
+  start_values = c(mu, sigma),
+  optim = TRUE,
+  x = x,
+  neg = TRUE
+)
+#'
+#' ## Summarize Results
+#'
+#+ results
+knitr::kable(
+  x = data.frame(
+    dnorm_ll = results_dnorm_ll,
+    normal_ll = results_normal_ll,
+    normal_L = results_normal_ll_L
+  ),
+  row.names = FALSE,
+  caption = "Negative Log-Likelihood"
+)
+knitr::kable(
+  x = data.frame(
+    dnorm_2ll = results_dnorm_2ll,
+    normal_2ll = results_normal_2ll,
+    normal_L = results_normal_2ll_L
+  ),
+  row.names = FALSE,
+  caption = "Negative Two Log-Likelihood"
+)
+knitr::kable(
+  x = data.frame(
+    Item = c("$\\mu$", "$\\sigma$"),
+    Parameter = c(mu, sigma),
+    Sample = c(x_bar, s),
+    dnorm = results_ml_dnorm$par,
+    normal_negll = results_ml_normal_2ll$par
+  ),
+  row.names = FALSE,
+  col.names = c(
+    "Item",
+    "Parameter",
+    "Closed-form solution",
+    "MLE using dnorm",
+    "MLE using normal_negll"
+  ),
+  caption = "Maximum Likelihood Estimates (MLE)"
+)
+#'
+#' ## Benchmarking
+#'
+#+ benchmark
+microbenchmark(
+  dnorm_ll = -1 * sum(dnorm(x = x, mean = mu, sd = sigma, log = TRUE)),
+  normal_ll = normal_ll(mu = mu, sigma = sigma, x = x, neg = TRUE),
+  dnorm_2ll = -2 * sum(dnorm(x = x, mean = mu, sd = sigma, log = TRUE)),
+  normal_2ll = normal_2ll(mu = mu, sigma = sigma, x = x, neg = TRUE)
+)
+microbenchmark(
+  ml_dnorm = opt(FUN = foo, start_values = c(mu, sigma), optim = TRUE, x = x),
+  ml_normal_obj = opt(FUN = normal_obj, start_values = c(mu, sigma), optim = TRUE, x = x, neg = TRUE)
+)
+#'
+#' ## testthat
+#'
+#+ testthat_01, echo=TRUE
+test_that("normal_L returns the same value as dnorm", {
+  expect_equivalent(
+    round(
+      x = results_dnorm_L,
+      digits = 2
+    ),
+    round(
+      x = results_normal_L,
+      digits = 2
+    )
+  )
+})
+#'
+#+ testthat_02, echo=TRUE
+test_that("normal_ll returns the same value as dnorm", {
+  expect_equivalent(
+    round(
+      x = results_dnorm_ll,
+      digits = 2
+    ),
+    round(
+      x = results_normal_ll,
+      digits = 2
+    ),
+    round(
+      x = results_normal_ll_L,
+      digits = 2
+    )
+  )
+})
+#'
+#+ testthat_03, echo=TRUE
+test_that("normal_2ll returns the same value as dnorm", {
+  expect_equivalent(
+    round(
+      x = results_dnorm_2ll,
+      digits = 2
+    ),
+    round(
+      x = results_normal_2ll,
+      digits = 2
+    ),
+    round(
+      x = results_normal_2ll_L,
+      digits = 2
+    )
+  )
+})
+#'
+#+ testthat_04, echo=TRUE
+test_that("normal_obj maximizes to the same estimates as dnorm", {
+  expect_equivalent(
+    round(
+      x = results_ml_dnorm$par,
+      digits = 2
+    ),
+    round(
+      x = results_ml_normal_2ll$par,
+      digits = 2
+    )
+  )
+})

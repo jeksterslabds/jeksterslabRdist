@@ -1,5 +1,5 @@
 PREFIX=/media/jeksterslab/scripts/r
-PKG=$(PREFIX)/jeksterslabRdata
+PKG=$(PREFIX)/jeksterslabRdist
 
 .PHONY: all clean rm
 
