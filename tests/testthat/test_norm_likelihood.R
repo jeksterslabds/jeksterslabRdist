@@ -122,37 +122,37 @@ results_dnorm_2ll <- -2 * sum(
     log = TRUE
   )
 )
-results_normal_L <- normal_L(
+results_normL <- normL(
   mu = mu,
   sigma = sigma,
   x = x
 )
-results_normal_ll <- normal_ll(
+results_normll <- normll(
   mu = mu,
   sigma = sigma,
   x = x,
   neg = TRUE
 )
-results_normal_ll_neg_false <- normal_ll(
+results_normll_neg_false <- normll(
   mu = mu,
   sigma = sigma,
   x = x,
   neg = FALSE
 )
-results_normal_ll_L <- -1 * log(results_normal_L)
-results_normal_2ll <- normal_2ll(
+results_normll_L <- -1 * log(results_normL)
+results_norm2ll <- norm2ll(
   mu = mu,
   sigma = sigma,
   x = x,
   neg = TRUE
 )
-results_normal_2ll_neg_false <- normal_2ll(
+results_norm2ll_neg_false <- norm2ll(
   mu = mu,
   sigma = sigma,
   x = x,
   neg = FALSE
 )
-results_normal_2ll_L <- -2 * log(results_normal_L)
+results_norm2ll_L <- -2 * log(results_normL)
 #'
 #' ## Maximum Likelihood Estimation
 #'
@@ -173,8 +173,8 @@ results_ml_dnorm <- opt(
   optim = TRUE,
   x = x
 )
-results_ml_normal_2ll <- opt(
-  FUN = normal_obj,
+results_ml_norm2ll <- opt(
+  FUN = normobj,
   start_values = c(mu, sigma),
   optim = TRUE,
   x = x,
@@ -186,8 +186,8 @@ results_nlminb_ml_dnorm <- opt(
   optim = FALSE,
   x = x
 )
-results_nlminb_ml_normal_2ll <- opt(
-  FUN = normal_obj,
+results_nlminb_ml_norm2ll <- opt(
+  FUN = normobj,
   start_values = c(mu, sigma),
   optim = FALSE,
   x = x,
@@ -200,8 +200,8 @@ results_nlminb_ml_normal_2ll <- opt(
 knitr::kable(
   x = data.frame(
     dnorm_ll = results_dnorm_ll,
-    normal_ll = results_normal_ll,
-    normal_L = results_normal_ll_L
+    normll = results_normll,
+    normL = results_normll_L
   ),
   row.names = FALSE,
   caption = "Negative Log-Likelihood"
@@ -209,8 +209,8 @@ knitr::kable(
 knitr::kable(
   x = data.frame(
     dnorm_2ll = results_dnorm_2ll,
-    normal_2ll = results_normal_2ll,
-    normal_L = results_normal_2ll_L
+    norm2ll = results_norm2ll,
+    normL = results_norm2ll_L
   ),
   row.names = FALSE,
   caption = "Negative Two Log-Likelihood"
@@ -222,8 +222,8 @@ knitr::kable(
     Sample = c(x_bar, s),
     dnorm_optim = results_ml_dnorm$par,
     dnorm_nlminb = results_nlminb_ml_dnorm$par,
-    normal_negll_optim = results_ml_normal_2ll$par,
-    normal_negll_nlminb = results_nlminb_ml_normal_2ll$par
+    normal_negll_optim = results_ml_norm2ll$par,
+    normal_negll_nlminb = results_nlminb_ml_norm2ll$par
   ),
   row.names = FALSE,
   col.names = c(
@@ -243,81 +243,81 @@ knitr::kable(
 #+ benchmark
 microbenchmark(
   dnorm_ll = -1 * sum(dnorm(x = x, mean = mu, sd = sigma, log = TRUE)),
-  normal_ll = normal_ll(mu = mu, sigma = sigma, x = x, neg = TRUE),
-  normal_ll_neg_false = normal_ll(mu = mu, sigma = sigma, x = x, neg = FALSE),
+  normll = normll(mu = mu, sigma = sigma, x = x, neg = TRUE),
+  normll_neg_false = normll(mu = mu, sigma = sigma, x = x, neg = FALSE),
   dnorm_2ll = -2 * sum(dnorm(x = x, mean = mu, sd = sigma, log = TRUE)),
-  normal_2ll = normal_2ll(mu = mu, sigma = sigma, x = x, neg = TRUE),
-  normal_2ll_neg_false = normal_2ll(mu = mu, sigma = sigma, x = x, neg = FALSE)
+  norm2ll = norm2ll(mu = mu, sigma = sigma, x = x, neg = TRUE),
+  norm2ll_neg_false = norm2ll(mu = mu, sigma = sigma, x = x, neg = FALSE)
 )
 microbenchmark(
   ml_dnorm_optim = opt(FUN = foo, start_values = c(mu, sigma), optim = TRUE, x = x),
   ml_dnorm_nlminb = opt(FUN = foo, start_values = c(mu, sigma), optim = FALSE, x = x),
-  ml_normal_obj_optim = opt(FUN = normal_obj, start_values = c(mu, sigma), optim = TRUE, x = x, neg = TRUE),
-  ml_normal_obj_nlminb = opt(FUN = normal_obj, start_values = c(mu, sigma), optim = FALSE, x = x, neg = TRUE)
+  ml_normobj_optim = opt(FUN = normobj, start_values = c(mu, sigma), optim = TRUE, x = x, neg = TRUE),
+  ml_normobj_nlminb = opt(FUN = normobj, start_values = c(mu, sigma), optim = FALSE, x = x, neg = TRUE)
 )
 #'
 #' ## testthat
 #'
 #+ testthat_01
-test_that("normal_L returns the same value as dnorm", {
+test_that("normL returns the same value as dnorm", {
   expect_equivalent(
     round(
       x = results_dnorm_L,
       digits = 2
     ),
     round(
-      x = results_normal_L,
+      x = results_normL,
       digits = 2
     )
   )
 })
 #'
 #+ testthat_02
-test_that("normal_ll returns the same value as dnorm", {
+test_that("normll returns the same value as dnorm", {
   expect_equivalent(
     round(
       x = results_dnorm_ll,
       digits = 2
     ),
     round(
-      x = results_normal_ll,
+      x = results_normll,
       digits = 2
     ),
     round(
-      x = results_normal_ll_neg_false * -1,
+      x = results_normll_neg_false * -1,
       digits = 2
     ),
     round(
-      x = results_normal_ll_L,
+      x = results_normll_L,
       digits = 2
     )
   )
 })
 #'
 #+ testthat_03
-test_that("normal_2ll returns the same value as dnorm", {
+test_that("norm2ll returns the same value as dnorm", {
   expect_equivalent(
     round(
       x = results_dnorm_2ll,
       digits = 2
     ),
     round(
-      x = results_normal_2ll,
+      x = results_norm2ll,
       digits = 2
     ),
     round(
-      x = results_normal_2ll_neg_false * -1,
+      x = results_norm2ll_neg_false * -1,
       digits = 2
     ),
     round(
-      x = results_normal_2ll_L,
+      x = results_norm2ll_L,
       digits = 2
     )
   )
 })
 #'
 #+ testthat_04
-test_that("normal_obj maximizes to the same estimates as dnorm", {
+test_that("normobj maximizes to the same estimates as dnorm", {
   expect_equivalent(
     round(
       x = results_ml_dnorm$par,
@@ -328,11 +328,11 @@ test_that("normal_obj maximizes to the same estimates as dnorm", {
       digits = 2
     ),
     round(
-      x = results_ml_normal_2ll$par,
+      x = results_ml_norm2ll$par,
       digits = 2
     ),
     round(
-      x = results_nlminb_ml_normal_2ll$par,
+      x = results_nlminb_ml_norm2ll$par,
       digits = 2
     )
   )
@@ -341,7 +341,7 @@ test_that("normal_obj maximizes to the same estimates as dnorm", {
 #+ testthat_05
 test_that("NA output", {
   expect_true(
-    is.na(normal_obj(
+    is.na(normobj(
       theta = c(-2, -2),
       x = rnorm(10),
       neg = TRUE

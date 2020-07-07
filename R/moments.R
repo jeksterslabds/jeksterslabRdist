@@ -87,7 +87,7 @@ m4 <- function(x) {
 #' @importFrom stats var
 #' @family moments functions
 #' @export
-kurtosis <- function(x, excess = FALSE) {
+kurt <- function(x, excess = FALSE) {
   out <- m4(x) / (var(x)^2)
   if (excess) {
     return(out - 3)

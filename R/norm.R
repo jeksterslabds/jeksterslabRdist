@@ -72,12 +72,12 @@
 #'   If `log = TRUE`,
 #'   returns \eqn{\log \left( f \left( x \right) \right)}.
 #' @references
-#'   [Wikipedia: Normal Distribution](https://en.wikipedia.org/wiki/Normal_distribution)
+#'   [Wikipedia: Normal Distribution](https://en.wikipedia.org/wiki/normaldistribution)
 #' @export
-normal_pdf <- function(x,
-                       mu = 0,
-                       sigma = 1,
-                       log = FALSE) {
+normpdf <- function(x,
+                    mu = 0,
+                    sigma = 1,
+                    log = FALSE) {
   out <- (1 / (sigma * sqrt(2 * pi))) * exp((-1 / 2) * ((x - mu) / sigma)^2)
   if (log) {
     return(log(out))
@@ -162,18 +162,18 @@ normal_pdf <- function(x,
 #' is the scale parameter variance being estimated
 #' (\eqn{\sigma^2 > 0}).
 #'
-#' @inheritParams normal_pdf
+#' @inheritParams normpdf
 #' @references
-#'   [Wikipedia: Normal Distribution](https://en.wikipedia.org/wiki/Normal_distribution)
+#'   [Wikipedia: Normal Distribution](https://en.wikipedia.org/wiki/normaldistribution)
 #'
 #'   [Wikipedia: IID](https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables)
 #'
 #'   [Wikipedia: Likelihood Function](https://en.wikipedia.org/wiki/Likelihood_function)
 #' @family normal likelihood functions
 #' @export
-normal_L <- function(mu,
-                     sigma,
-                     x) {
+normL <- function(mu,
+                  sigma,
+                  x) {
   # likelihood
   ((1 / sqrt(2 * pi * sigma^2))^(length(x))) * exp((-1 / (2 * sigma^2)) * sum((x - mu)^2))
 }
@@ -285,14 +285,14 @@ normal_L <- function(mu,
 #'   If `TRUE`,
 #'   returns,
 #'   negative log-likelihood.
-#' @inheritParams normal_pdf
-#' @inherit normal_L references
+#' @inheritParams normpdf
+#' @inherit normL references
 #' @family normal likelihood functions
 #' @export
-normal_ll <- function(mu,
-                      sigma,
-                      x,
-                      neg = TRUE) {
+normll <- function(mu,
+                   sigma,
+                   x,
+                   neg = TRUE) {
   if (neg) {
     # negative log-likelihood
     return(
@@ -397,14 +397,14 @@ normal_ll <- function(mu,
 #'   If `TRUE`,
 #'   returns,
 #'   negative two log-likelihood.
-#' @inheritParams normal_pdf
-#' @inherit normal_L references
+#' @inheritParams normpdf
+#' @inherit normL references
 #' @family normal likelihood functions
 #' @export
-normal_2ll <- function(mu,
-                       sigma,
-                       x,
-                       neg = TRUE) {
+norm2ll <- function(mu,
+                    sigma,
+                    x,
+                    neg = TRUE) {
   if (neg) {
     # negative 2 log-likelihood
     return(
@@ -422,22 +422,22 @@ normal_2ll <- function(mu,
 #'
 #' Objective function to minimize/maximize
 #' to estimate parameters of the normal distribution.
-#' See [`normal_2ll()`].
+#' See [`norm2ll()`].
 #'
 #' @author Ivan Jacob Agaloos Pesigan
 #' @param theta Vector of parameters \eqn{\theta} of the normal distribution
 #'   (`theta[1] = mu` (\eqn{\mu}) and `theta[2] = sigma` (\eqn{\sigma})).
-#' @inheritParams normal_ll
-#' @inherit normal_L references
+#' @inheritParams normll
+#' @inherit normL references
 #' @family normal likelihood functions
 #' @export
-normal_obj <- function(theta,
-                       x,
-                       neg = TRUE) {
+normobj <- function(theta,
+                    x,
+                    neg = TRUE) {
   if (theta[2] < 0) {
     return(NA)
   }
-  normal_2ll(
+  norm2ll(
     mu = theta[1],
     sigma = theta[2],
     x = x,

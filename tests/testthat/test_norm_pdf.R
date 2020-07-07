@@ -103,7 +103,7 @@ results_dnorm <- dnorm(
   sd = sigma,
   log = FALSE
 )
-results_normal_pdf <- normal_pdf(
+results_normpdf <- normpdf(
   x = x,
   mu = mu,
   sigma = sigma,
@@ -115,7 +115,7 @@ results_dnorm_log <- dnorm(
   sd = sigma,
   log = TRUE
 )
-results_normal_pdf_log <- normal_pdf(
+results_normpdf_log <- normpdf(
   x = x,
   mu = mu,
   sigma = sigma,
@@ -125,7 +125,7 @@ results_normal_pdf_log <- normal_pdf(
 #+ plot_01
 plot(
   x = x,
-  y = results_normal_pdf
+  y = results_normpdf
 )
 #'
 #+ plot_02
@@ -137,7 +137,7 @@ plot(
 #+ plot_03
 plot(
   x = x,
-  y = results_normal_pdf_log
+  y = results_normpdf_log
 )
 #'
 #+ plot_04
@@ -153,9 +153,9 @@ knitr::kable(
   x = data.frame(
     x = x,
     dnorm = results_dnorm,
-    normal_pdf = results_normal_pdf,
+    normpdf = results_normpdf,
     dnorm_log = results_dnorm_log,
-    normal_pdf_log = results_normal_pdf_log
+    normpdf_log = results_normpdf_log
   ),
   row.names = FALSE
 )
@@ -165,36 +165,36 @@ knitr::kable(
 #+ benchmark
 microbenchmark(
   dnorm = dnorm(x = x, mean = mu, sd = sigma, log = FALSE),
-  normal_pdf = normal_pdf(x = x, mu = mu, sigma = sigma, log = FALSE),
+  normpdf = normpdf(x = x, mu = mu, sigma = sigma, log = FALSE),
   dnorm_log = dnorm(x = x, mean = mu, sd = sigma, log = TRUE),
-  normal_pdf_log = normal_pdf(x = x, mu = mu, sigma = sigma, log = TRUE)
+  normpdf_log = normpdf(x = x, mu = mu, sigma = sigma, log = TRUE)
 )
 #'
 #' ## testthat
 #'
 #+ testthat_01, echo=TRUE
-test_that("normal_pdf return the same values as dnorm", {
+test_that("normpdf return the same values as dnorm", {
   expect_equivalent(
     round(
       x = results_dnorm,
       digits = 2
     ),
     round(
-      x = results_normal_pdf,
+      x = results_normpdf,
       digits = 2
     )
   )
 })
 #'
 #+ testthat_02, echo=TRUE
-test_that("normal_pdf log = TRUE return the same values as dnorm log = TRUE", {
+test_that("normpdf log = TRUE return the same values as dnorm log = TRUE", {
   expect_equivalent(
     round(
       x = results_dnorm_log,
       digits = 2
     ),
     round(
-      x = results_normal_pdf_log,
+      x = results_normpdf_log,
       digits = 2
     )
   )

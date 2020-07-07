@@ -64,9 +64,9 @@
 #' @references
 #'   [Wikipedia: Multivariate Normal Distribution](https://en.wikipedia.org/wiki/Multivariate_normal_distribution)
 #' @export
-mvnormal_pdf <- function(X,
-                         mu,
-                         Sigma) {
+mvnpdf <- function(X,
+                   mu,
+                   Sigma) {
   # Mahalanobis distance squared
   D2 <- mahalanobis(
     x = X,
@@ -177,14 +177,14 @@ mvnormal_pdf <- function(X,
 #' }
 #'
 #' @author Ivan Jacob Agaloos Pesigan
-#' @inheritParams mvnormal_pdf
-#' @inheritParams normal_ll
-#' @inherit mvnormal_pdf references
+#' @inheritParams mvnpdf
+#' @inheritParams normll
+#' @inherit mvnpdf references
 #' @export
-mvnormal_ll <- function(X,
-                        mu,
-                        Sigma,
-                        neg = TRUE) {
+mvnll <- function(X,
+                  mu,
+                  Sigma,
+                  neg = TRUE) {
   # Mahalanobis distance squared
   D2 <- mahalanobis(
     x = X,
@@ -302,14 +302,14 @@ mvnormal_ll <- function(X,
 #' }
 #'
 #' @author Ivan Jacob Agaloos Pesigan
-#' @inheritParams mvnormal_pdf
-#' @inheritParams normal_2ll
-#' @inherit mvnormal_pdf references
+#' @inheritParams mvnpdf
+#' @inheritParams norm2ll
+#' @inherit mvnpdf references
 #' @export
-mvnormal_2ll <- function(X,
-                         mu,
-                         Sigma,
-                         neg = TRUE) {
+mvn2ll <- function(X,
+                   mu,
+                   Sigma,
+                   neg = TRUE) {
   # Mahalanobis distance squared
   D2 <- mahalanobis(
     x = X,
