@@ -2,7 +2,8 @@
 #'
 #' Calculates probablities
 #' from the probability density function
-#' of the multivariate normal distribution.
+#' of the multivariate normal distribution
+#' \eqn{\mathbf{X} \sim \mathcal{N}_{k} \left( \boldsymbol{\mu}, \boldsymbol{\Sigma}\right)} .
 #'
 #' The multivariate normal
 #' (or multivariate Gaussian,
