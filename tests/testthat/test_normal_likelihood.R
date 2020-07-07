@@ -133,12 +133,24 @@ results_normal_ll <- normal_ll(
   x = x,
   neg = TRUE
 )
+results_normal_ll_neg_false <- normal_ll(
+  mu = mu,
+  sigma = sigma,
+  x = x,
+  neg = FALSE
+)
 results_normal_ll_L <- -1 * log(results_normal_L)
 results_normal_2ll <- normal_2ll(
   mu = mu,
   sigma = sigma,
   x = x,
   neg = TRUE
+)
+results_normal_2ll_neg_false <- normal_2ll(
+  mu = mu,
+  sigma = sigma,
+  x = x,
+  neg = FALSE
 )
 results_normal_2ll_L <- -2 * log(results_normal_L)
 #'
@@ -165,6 +177,19 @@ results_ml_normal_2ll <- opt(
   FUN = normal_obj,
   start_values = c(mu, sigma),
   optim = TRUE,
+  x = x,
+  neg = TRUE
+)
+results_nlminb_ml_dnorm <- opt(
+  FUN = foo,
+  start_values = c(mu, sigma),
+  optim = FALSE,
+  x = x
+)
+results_nlminb_ml_normal_2ll <- opt(
+  FUN = normal_obj,
+  start_values = c(mu, sigma),
+  optim = FALSE,
   x = x,
   neg = TRUE
 )
@@ -195,16 +220,20 @@ knitr::kable(
     Item = c("$\\mu$", "$\\sigma$"),
     Parameter = c(mu, sigma),
     Sample = c(x_bar, s),
-    dnorm = results_ml_dnorm$par,
-    normal_negll = results_ml_normal_2ll$par
+    dnorm_optim = results_ml_dnorm$par,
+    dnorm_nlminb = results_nlminb_ml_dnorm$par,
+    normal_negll_optim = results_ml_normal_2ll$par,
+    normal_negll_nlminb = results_nlminb_ml_normal_2ll$par
   ),
   row.names = FALSE,
   col.names = c(
     "Item",
     "Parameter",
     "Closed-form solution",
-    "MLE using dnorm",
-    "MLE using normal_negll"
+    "MLE using dnorm (optim)",
+    "MLE using dnorm (nlminb)",
+    "MLE using normal_negll (optim)",
+    "MLE using normal_negll (nlminb)"
   ),
   caption = "Maximum Likelihood Estimates (MLE)"
 )
@@ -215,17 +244,21 @@ knitr::kable(
 microbenchmark(
   dnorm_ll = -1 * sum(dnorm(x = x, mean = mu, sd = sigma, log = TRUE)),
   normal_ll = normal_ll(mu = mu, sigma = sigma, x = x, neg = TRUE),
+  normal_ll_neg_false = normal_ll(mu = mu, sigma = sigma, x = x, neg = FALSE),
   dnorm_2ll = -2 * sum(dnorm(x = x, mean = mu, sd = sigma, log = TRUE)),
-  normal_2ll = normal_2ll(mu = mu, sigma = sigma, x = x, neg = TRUE)
+  normal_2ll = normal_2ll(mu = mu, sigma = sigma, x = x, neg = TRUE),
+  normal_2ll_neg_false = normal_2ll(mu = mu, sigma = sigma, x = x, neg = FALSE)
 )
 microbenchmark(
-  ml_dnorm = opt(FUN = foo, start_values = c(mu, sigma), optim = TRUE, x = x),
-  ml_normal_obj = opt(FUN = normal_obj, start_values = c(mu, sigma), optim = TRUE, x = x, neg = TRUE)
+  ml_dnorm_optim = opt(FUN = foo, start_values = c(mu, sigma), optim = TRUE, x = x),
+  ml_dnorm_nlminb = opt(FUN = foo, start_values = c(mu, sigma), optim = FALSE, x = x),
+  ml_normal_obj_optim = opt(FUN = normal_obj, start_values = c(mu, sigma), optim = TRUE, x = x, neg = TRUE),
+  ml_normal_obj_nlminb = opt(FUN = normal_obj, start_values = c(mu, sigma), optim = FALSE, x = x, neg = TRUE)
 )
 #'
 #' ## testthat
 #'
-#+ testthat_01, echo=TRUE
+#+ testthat_01
 test_that("normal_L returns the same value as dnorm", {
   expect_equivalent(
     round(
@@ -239,7 +272,7 @@ test_that("normal_L returns the same value as dnorm", {
   )
 })
 #'
-#+ testthat_02, echo=TRUE
+#+ testthat_02
 test_that("normal_ll returns the same value as dnorm", {
   expect_equivalent(
     round(
@@ -251,13 +284,17 @@ test_that("normal_ll returns the same value as dnorm", {
       digits = 2
     ),
     round(
+      x = results_normal_ll_neg_false * -1,
+      digits = 2
+    ),
+    round(
       x = results_normal_ll_L,
       digits = 2
     )
   )
 })
 #'
-#+ testthat_03, echo=TRUE
+#+ testthat_03
 test_that("normal_2ll returns the same value as dnorm", {
   expect_equivalent(
     round(
@@ -269,13 +306,17 @@ test_that("normal_2ll returns the same value as dnorm", {
       digits = 2
     ),
     round(
+      x = results_normal_2ll_neg_false * -1,
+      digits = 2
+    ),
+    round(
       x = results_normal_2ll_L,
       digits = 2
     )
   )
 })
 #'
-#+ testthat_04, echo=TRUE
+#+ testthat_04
 test_that("normal_obj maximizes to the same estimates as dnorm", {
   expect_equivalent(
     round(
@@ -283,8 +324,27 @@ test_that("normal_obj maximizes to the same estimates as dnorm", {
       digits = 2
     ),
     round(
+      x = results_nlminb_ml_dnorm$par,
+      digits = 2
+    ),
+    round(
       x = results_ml_normal_2ll$par,
       digits = 2
+    ),
+    round(
+      x = results_nlminb_ml_normal_2ll$par,
+      digits = 2
     )
+  )
+})
+#'
+#+ testthat_05
+test_that("NA output", {
+  expect_true(
+    is.na(normal_obj(
+      theta = c(-2, -2),
+      x = rnorm(10),
+      neg = TRUE
+    ))
   )
 })
