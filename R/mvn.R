@@ -1,14 +1,34 @@
 #' Multivariate Normal - Probablity Density Function
 #'
-#' Calculates probablities
+#' @description Calculates probablities
 #' from the probability density function
 #' of the multivariate normal distribution
-#' \eqn{\mathbf{X} \sim \mathcal{N}_{k} \left( \boldsymbol{\mu}, \boldsymbol{\Sigma}\right)} .
+#' \eqn{
+#'   \mathbf{X}
+#'   \sim
+#'   \mathcal{N}_{k}
+#'   \left(
+#'     \boldsymbol{\mu},
+#'     \boldsymbol{\Sigma}
+#'   \right) .
+#'   %(\#eq:dist-X-mvn)
+#' }
 #'
-#' The multivariate normal
+#' @details The multivariate normal
 #' (or multivariate Gaussian,
 #' or joint normal)
 #' distribution is given by
+#' \deqn{
+#'   \mathbf{X}
+#'   \sim
+#'   \mathcal{N}_{k}
+#'   \left(
+#'     \boldsymbol{\mu},
+#'     \boldsymbol{\Sigma}
+#'   \right)
+#'   %(\#eq:dist-X-mvn)
+#' }
+#' and has the probability density function (PDF)
 #' \deqn{
 #'   f_{\mathbf{X}}
 #'   \left(
@@ -38,6 +58,7 @@
 #'       | \boldsymbol{\Sigma} |
 #'     }
 #'   }
+#'   %(\#eq:dist-mvnpdf)
 #' }
 #' with
 #' \eqn{k}-dimensional
@@ -45,24 +66,25 @@
 #' \eqn{\mathbf{X} \in \boldsymbol{\mu} + \textrm{span}\left(\boldsymbol{\Sigma}\right) \subseteq \mathbf{R}^k},
 #' \eqn{\boldsymbol{\mu}}
 #' is the location parameter mean
-#' (\eqn{\boldsymbol{\mu} \in \mathbf{R}^k}),
+#' \eqn{\left( \boldsymbol{\mu} \in \mathbf{R}^k \right)},
 #' and
 #' \eqn{\boldsymbol{\Sigma}}
 #' is the variance-covariance matrix
-#' (\eqn{\boldsymbol{\Sigma} \in \mathbf{R}^{k \times k}}).
+#' \eqn{\left( \boldsymbol{\Sigma} \in \mathbf{R}^{k \times k} \right)}.
 #'
 #' @author Ivan Jacob Agaloos Pesigan
+#' @family mutivariate normal likelihood functions
+#' @keywords mutivariate normal
 #' @param X Numeric matrix.
-#'   Values of the \eqn{k}-dimensional random variable \eqn{X}.
+#'   Values of the \eqn{k}-dimensional random variable \eqn{\mathbf{X}}.
 #' @param mu Numeric vector.
-#'   Location parameter mean vector of length \eqn{k}
-#'   (\eqn{\boldsymbol{\mu}}).
+#'   Location parameter mean vector \eqn{\boldsymbol{\mu}} of length \eqn{k}.
 #' @param Sigma Numeric matrix.
 #'   \eqn{k \times k} variance-covariance matrix
-#'   (\eqn{\boldsymbol{\Sigma}}).
-#' @importFrom stats mahalanobis
+#'   \eqn{\boldsymbol{\Sigma}}.
 #' @references
 #'   [Wikipedia: Multivariate Normal Distribution](https://en.wikipedia.org/wiki/Multivariate_normal_distribution)
+#' @importFrom stats mahalanobis
 #' @export
 mvnpdf <- function(X,
                    mu,
@@ -78,10 +100,10 @@ mvnpdf <- function(X,
 
 #' Multivariate Normal - Log-Likelihood
 #'
-#' Calculates the log-likelihood of \eqn{\mathbf{X}}
+#' @description Calculates the log-likelihood of \eqn{\mathbf{X}}
 #' following a mutivariate normal distribution.
 #'
-#' The natural log of the likelihood function for the multivariate normal
+#' @details The natural log of the likelihood function for the multivariate normal
 #' (or multivariate Gaussian,
 #' or joint normal)
 #' distribution is given by
@@ -130,6 +152,7 @@ mvnpdf <- function(X,
 #'     2 \pi
 #'     \right)
 #'   \right]
+#'   %(\#eq:dist-mvnL)
 #' }
 #' with
 #' \eqn{k}-dimensional
@@ -137,11 +160,11 @@ mvnpdf <- function(X,
 #' \eqn{\mathbf{X} \in \boldsymbol{\mu} + \textrm{span}\left(\boldsymbol{\Sigma}\right) \subseteq \mathbf{R}^k},
 #' \eqn{\boldsymbol{\mu}}
 #' is the location parameter mean
-#' (\eqn{\boldsymbol{\mu} \in \mathbf{R}^k}),
+#' \eqn{\left( \boldsymbol{\mu} \in \mathbf{R}^k \right)},
 #' and
 #' \eqn{\boldsymbol{\Sigma}}
 #' is the variance-covariance matrix
-#' (\eqn{\boldsymbol{\Sigma} \in \mathbf{R}^{k \times k}}).
+#' \eqn{\left( \boldsymbol{\Sigma} \in \mathbf{R}^{k \times k} \right)}.
 #'
 #' The negative log-likelihood is given by
 #' \deqn{
@@ -174,9 +197,12 @@ mvnpdf <- function(X,
 #'     2 \pi
 #'     \right)
 #'   \right] .
+#'   %(\#eq:dist-mvnnegll)
 #' }
 #'
 #' @author Ivan Jacob Agaloos Pesigan
+#' @family mutivariate normal likelihood functions
+#' @keywords mutivariate normal
 #' @inheritParams mvnpdf
 #' @inheritParams normll
 #' @inherit mvnpdf references
@@ -206,10 +232,10 @@ mvnll <- function(X,
 
 #' Multivariate Normal - Two Log-Likelihood
 #'
-#' Calculates the two log-likelihood of \eqn{\mathbf{X}}
+#' @description Calculates the two log-likelihood of \eqn{\mathbf{X}}
 #' following a mutivariate normal distribution.
 #'
-#' The two log-likelihood for the multivariate normal
+#' @details The two log-likelihood for the multivariate normal
 #' (or multivariate Gaussian,
 #' or joint normal)
 #' distribution is given by
@@ -258,6 +284,7 @@ mvnll <- function(X,
 #'   \left(
 #'   2 \pi
 #'   \right)
+#'   %(\#eq:dist-mvn2ll)
 #' }
 #' with
 #' \eqn{k}-dimensional
@@ -265,11 +292,11 @@ mvnll <- function(X,
 #' \eqn{\mathbf{X} \in \boldsymbol{\mu} + \textrm{span}\left(\boldsymbol{\Sigma}\right) \subseteq \mathbf{R}^k},
 #' \eqn{\boldsymbol{\mu}}
 #' is the location parameter mean
-#' (\eqn{\boldsymbol{\mu} \in \mathbf{R}^k}),
+#' \eqn{\left( \boldsymbol{\mu} \in \mathbf{R}^k \right)},
 #' and
 #' \eqn{\boldsymbol{\Sigma}}
 #' is the variance-covariance matrix
-#' (\eqn{\boldsymbol{\Sigma} \in \mathbf{R}^{k \times k}}).
+#' \eqn{\left( \boldsymbol{\Sigma} \in \mathbf{R}^{k \times k} \right)}.
 #'
 #' The negative two log-likelihood is given by
 #' \deqn{
@@ -299,9 +326,12 @@ mvnll <- function(X,
 #'   \left(
 #'   2 \pi
 #'   \right) .
+#'   %(\#eq:dist-mvnneg2ll)
 #' }
 #'
 #' @author Ivan Jacob Agaloos Pesigan
+#' @family mutivariate normal likelihood functions
+#' @keywords mutivariate normal
 #' @inheritParams mvnpdf
 #' @inheritParams norm2ll
 #' @inherit mvnpdf references

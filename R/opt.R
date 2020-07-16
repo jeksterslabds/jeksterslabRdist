@@ -1,7 +1,7 @@
 #' Estimation via Optimization
 #'
-#' Estimates parameters from a given objective function
-#' using optimization.
+#' @description Estimates parameters from a given objective function
+#'   using optimization.
 #'
 #' @author Ivan Jacob Agaloos Pesigan
 #' @param FUN Objective function.
