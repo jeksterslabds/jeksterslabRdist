@@ -29,8 +29,8 @@ context("Test Normal - PDF.")
 n <- 50
 mu <- runif(
   n = 1,
-  min = -1,
-  max = 1
+  min = 1,
+  max = 2
 )
 sigma <- runif(
   n = 1,
