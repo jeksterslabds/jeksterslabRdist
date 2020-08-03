@@ -23,10 +23,14 @@ Depends:
 	R (>= 3.5.0)
 Imports:
 	utils,
-	stats
+	stats,
+    jeksterslabRmatrix
+Remotes:
+    jeksterslabds/jeksterslabRmatrix
 Suggests:
 	knitr,
 	rmarkdown,
 	testthat,
-    microbenchmark
+    microbenchmark,
+    MASS
 RoxygenNote: 7.1.1

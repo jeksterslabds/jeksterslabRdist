@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Skewness — skew • jeksterslabRdist</title>
+<title>Multivariate Kurtosis — mardiakurt • jeksterslabRdist</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,30 @@
 
 
 
-<meta property="og:title" content="Skewness — skew" />
-<meta property="og:description" content="Calculates kurtosis
-which is a measure of the asymmetry
-of a distribution." />
+<meta property="og:title" content="Multivariate Kurtosis — mardiakurt" />
+<meta property="og:description" content="Mardia's estimate of multivariate kurtosis is given by
+$$
+    b_{2, k}
+    =
+    \frac{1}{n}
+    \sum_{i = 1}^{n}
+    \left[
+      \left(
+        \mathbf{X}_{i} - \mathbf{\bar{X}}
+      \right)^{T}
+      \boldsymbol{\hat{\Sigma}}^{-1}
+      \left(
+        \mathbf{X}_{i} - \mathbf{\bar{X}}
+      \right)
+    \right]^{2}
+  $$
+where
+\(\mathbf{X}\) is the \(n \times k\) sample data
+\(\mathbf{\bar{X}}\) represent sample means
+\(\mathbf{X}_{i} - \mathbf{\bar{X}}\) represent deviations from the mean
+\(\boldsymbol{\hat{\Sigma}}\) is the estimated variance-covariance matrix of \(\mathbf{X}\) using sample data
+
+" />
 
 
 
@@ -131,80 +151,88 @@ of a distribution." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Skewness</h1>
+    <h1>Multivariate Kurtosis</h1>
     <small class="dont-index">Source: <a href='https://github.com/jeksterslabds/jeksterslabRdist/blob/master/R/moments.R'><code>R/moments.R</code></a></small>
-    <div class="hidden name"><code>skew.Rd</code></div>
+    <div class="hidden name"><code>mardiakurt.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculates kurtosis
-which is a measure of the asymmetry
-of a distribution.</p>
+    <p>Mardia's estimate of multivariate kurtosis is given by
+$$
+    b_{2, k}
+    =
+    \frac{1}{n}
+    \sum_{i = 1}^{n}
+    \left[
+      \left(
+        \mathbf{X}_{i} - \mathbf{\bar{X}}
+      \right)^{T}
+      \boldsymbol{\hat{\Sigma}}^{-1}
+      \left(
+        \mathbf{X}_{i} - \mathbf{\bar{X}}
+      \right)
+    \right]^{2}
+  $$
+where</p><ul>
+<li><p>\(\mathbf{X}\) is the \(n \times k\) sample data</p></li>
+<li><p>\(\mathbf{\bar{X}}\) represent sample means</p></li>
+<li><p>\(\mathbf{X}_{i} - \mathbf{\bar{X}}\) represent deviations from the mean</p></li>
+<li><p>\(\boldsymbol{\hat{\Sigma}}\) is the estimated variance-covariance matrix of \(\mathbf{X}\) using sample data</p></li>
+</ul>
+
     </div>
 
-    <pre class="usage"><span class='fu'>skew</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>2</span>)</pre>
+    <pre class="usage"><span class='fu'>mardiakurt</span>(<span class='no'>X</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Numeric vector.
-Sample data.</p></td>
-    </tr>
-    <tr>
-      <th>type</th>
-      <td><p>Integer.
-1, 2, or 3.
-See details.</p></td>
+      <th>X</th>
+      <td><p>Matrix or data frame.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Returns a vector with the following elements</p><dl'>
+<dt>b2</dt><dd><p>Estimate of multivariate kurtosis \(\left( b_{2, k} \right)\) .</p></dd>
+<dt>z</dt><dd><p>z-statistic \(\left( \frac{b_{2, k} - k \left( k + 2 \right)}{\sqrt{\frac{8 k \left( k + 2 \right)}{n}}} \right)\) .</p></dd>
+<dt>p</dt><dd><p>p-value associated with the z-statistic.</p></dd>
+
+</dl>
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Type 1
+    <p>If the null hypothesis that \(\mathbf{X}\) comes from a multivariate normal distribution is true,
+\(b_{2, k}\) follows a normal distribution with a mean of \(k \left( k + 2 \right)\)
+and a variance of \(\frac{8 k \left( k + 2 \right)}{n}\).
+Consequently,
 $$
-  g_1
-  =
-  \frac{m_3}{m_{2}^{\frac{3}{2}}}
-  %(\#eq:dist-moments-g1)
-$$</p>
-<p>Type 2
-$$
-  G_1
-  =
-  \frac{K_3}{K_{2}^{\frac{3}{2}}}
-  %(\#eq:dist-moments-G1)
-$$</p>
-<p>Type 3
-$$
-  b_1
-  =
-  \frac{m_3}{s^3}
-  %(\#eq:dist-moments-b1)
-$$</p>
+    \frac{b_{2, k} - k \left( k + 2 \right)}{\sqrt{\frac{8 k \left( k + 2 \right)}{n}}}
+  $$
+asymptotically follows a standard normal distribution \(\mathcal{N} \left( 0, 1 \right)\) .</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Joanes, D., &amp; Gill, C. (1998).
-Comparing Measures of Sample Skewness and Kurtosis.
-<em>Journal of the Royal Statistical Society. Series D (The Statistician)</em>, <em>47</em>(1), 183-189.
-<a href='https://www.jstor.org/stable/2988433'>2988433</a></p>
-<p><a href='https://en.wikipedia.org/wiki/Skewness'>Wikipedia: Kurtosis</a></p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other moments functions: 
-<code><a href='cumulant.html'>cumulant</a>()</code>,
-<code><a href='kurt.html'>kurt</a>()</code>,
-<code><a href='moments.html'>moments</a>()</code>,
-<code><a href='moment.html'>moment</a>()</code></p></div>
+    <p>Mardia, K. V. (1970).
+Measures of multivariate skewness and kurtosis with applications.
+<em>Biometrika</em>, <em>57</em>(3), 519-530.
+doi:<a href='https://doi.org/10.2307/2334770'>10.2307/2334770</a>.</p>
+<p>Mardia, K. V. (1974).
+Applications of Some Measures of Multivariate Skewness and Kurtosis in Testing Normality and Robustness Studies.
+<em>Sankhyā: The Indian Journal of Statistics, Series B (1960-2002)</em>, <em>36</em>(2), 115-128.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
-  <span class='fl'>10</span>, <span class='fl'>11</span>, <span class='fl'>12</span>, <span class='fl'>12</span>, <span class='fl'>12</span>, <span class='fl'>13</span>, <span class='fl'>13</span>, <span class='fl'>13</span>, <span class='fl'>13</span>, <span class='fl'>13</span>,
-  <span class='fl'>13</span>, <span class='fl'>14</span>, <span class='fl'>14</span>, <span class='fl'>14</span>, <span class='fl'>14</span>, <span class='fl'>15</span>, <span class='fl'>15</span>, <span class='fl'>15</span>, <span class='fl'>16</span>, <span class='fl'>17</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>42</span>)
+<span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
+<span class='no'>mu</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>)
+<span class='no'>Sigma</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>, <span class='fl'>0.5</span>, <span class='fl'>0.5</span>, <span class='fl'>1</span>, <span class='fl'>0.5</span>, <span class='fl'>0.5</span>, <span class='fl'>0.5</span>, <span class='fl'>1</span>),
+  <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>3</span>
 )
-<span class='fu'>skew</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 0.08931506</div><div class='input'><span class='fu'>skew</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] 0.09672616</div><div class='input'><span class='fu'>skew</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; [1] 0.08270087</div><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
-<span class='fu'>skew</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] -0.002396724</div><div class='input'><span class='fu'>skew</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] -0.002400326</div><div class='input'><span class='fu'>skew</span>(<span class='no'>x</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; [1] -0.00239313</div></pre>
+<span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>MASS</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/MASS/man/mvrnorm.html'>mvrnorm</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='no'>mu</span>, <span class='kw'>Sigma</span> <span class='kw'>=</span> <span class='no'>Sigma</span>)
+<span class='fu'>mardiakurt</span>(<span class='no'>X</span>)</div><div class='output co'>#&gt;         b2          z          p 
+#&gt; 15.9079802  0.8288687  0.4071787 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

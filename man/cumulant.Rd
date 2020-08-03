@@ -51,6 +51,7 @@ Cumulant
 \seealso{
 Other moments functions: 
 \code{\link{kurt}()},
+\code{\link{moments}()},
 \code{\link{moment}()},
 \code{\link{skew}()}
 }

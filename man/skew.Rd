@@ -69,6 +69,7 @@ Comparing Measures of Sample Skewness and Kurtosis.
 Other moments functions: 
 \code{\link{cumulant}()},
 \code{\link{kurt}()},
+\code{\link{moments}()},
 \code{\link{moment}()}
 }
 \author{

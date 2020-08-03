@@ -144,6 +144,7 @@ where
 Other moments functions: 
 \code{\link{cumulant}()},
 \code{\link{kurt}()},
+\code{\link{moments}()},
 \code{\link{skew}()}
 }
 \author{
