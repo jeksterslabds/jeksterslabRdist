@@ -510,18 +510,28 @@ mardiaskew <- function(X) {
   # vectorized version-----------------------------------------------------------------
   term <- deviation %*% invSigma %*% t(deviation)
   b1 <- (1 / n^2) * sum(term^3)
-  chisq <- n * (b1 / 6)
-  df <- k * (k + 1) * (k + 2) / 6
-  p <- pchisq(
-    q = chisq,
-    df = df,
+  b1.chisq <- n * (b1 / 6)
+  b1.correction <- ((k + 1) * (n + 1) * (n + 3)) / ((n * (n + 1) * (k + 1)) - 6)
+  b1.chisq.corrected <- ((n * b1.correction) / 6) * b1
+  b1.df <- k * (k + 1) * (k + 2) / 6
+  b1.p <- pchisq(
+    q = b1.chisq,
+    df = b1.df,
+    lower.tail = FALSE
+  )
+  b1.p.corrected <- pchisq(
+    q = b1.chisq.corrected,
+    df = b1.df,
     lower.tail = FALSE
   )
   c(
     b1 = b1,
-    chisq = chisq,
-    df = df,
-    p = p
+    b1.chisq = b1.chisq,
+    b1.correction = b1.correction,
+    b1.chisq.corrected = b1.chisq.corrected,
+    b1.df = b1.df,
+    b1.p = b1.p,
+    b1.p.corrected = b1.p.corrected
   )
 }
 
@@ -612,12 +622,12 @@ mardiakurt <- function(X) {
   # vectorized version-----------------------------------------------------------------
   term <- deviation %*% invSigma %*% t(deviation)
   b2 <- (1 / n) * sum(diag(term^2))
-  z <- (b2 - ((k * (k + 2)))) / sqrt(8 * k * ((k + 2) / n))
-  p <- 2 * pnorm(q = -abs(z))
+  b2.z <- (b2 - ((k * (k + 2)))) / sqrt(8 * k * ((k + 2) / n))
+  b2.p <- 2 * pnorm(q = -abs(b2.z))
   c(
     b2 = b2,
-    z = z,
-    p = p
+    b2.z = b2.z,
+    b2.p = b2.p
   )
 }
 
@@ -661,25 +671,64 @@ mardia <- function(X) {
     scale = FALSE
   )
   invSigma <- solve(Sigma)
+  # skewness for loop version----------------------------------------------------------------
+  #  deviation <- scale(
+  #  X,
+  #  center = TRUE,
+  #  scale = FALSE
+  # )
+  # term <- matrix(
+  #  data = NA,
+  #  ncol = n,
+  #  nrow = n
+  # )
+  # for (j in 1:n) {
+  #  for (i in 1:n) {
+  #    term[i, j] <- (deviation[i, ] %*% invSigma %*% as.matrix(deviation[j, ]))^3
+  #  }
+  # }
+  # b1 <- (1 / n^2) * sum(term)
+  # kurtosis for loop version----------------------------------------------------------------
+  #  deviation <- scale(
+  #  X,
+  #  center = TRUE,    b2 = b2,
+  #  x = NA,
+  #  length = n
+  # )
+  # for (i in 1:n) {
+  #  term[i] <- (deviation[i, ] %*% invSigma %*% as.matrix(deviation[i, ]))^2
+  # }
+  # b2 <- (1 / n) * sum(term)
+  # vectorized version-----------------------------------------------------------------
   term <- deviation %*% invSigma %*% t(deviation)
   b1 <- (1 / n^2) * sum(term^3)
   b1.chisq <- n * (b1 / 6)
+  b1.correction <- ((k + 1) * (n + 1) * (n + 3)) / ((n * (n + 1) * (k + 1)) - 6)
+  b1.chisq.corrected <- ((n * b1.correction) / 6) * b1
   b1.df <- k * (k + 1) * (k + 2) / 6
   b1.p <- pchisq(
     q = b1.chisq,
     df = b1.df,
     lower.tail = FALSE
   )
+  b1.p.corrected <- pchisq(
+    q = b1.chisq.corrected,
+    df = b1.df,
+    lower.tail = FALSE
+  )
   b2 <- (1 / n) * sum(diag(term^2))
   b2.z <- (b2 - ((k * (k + 2)))) / sqrt(8 * k * ((k + 2) / n))
-  p.b2 <- 2 * pnorm(q = -abs(b2.z))
+  b2.p <- 2 * pnorm(q = -abs(b2.z))
   c(
     b1 = b1,
     b1.chisq = b1.chisq,
+    b1.correction = b1.correction,
+    b1.chisq.corrected = b1.chisq.corrected,
     b1.df = b1.df,
     b1.p = b1.p,
+    b1.p.corrected = b1.p.corrected,
     b2 = b2,
     b2.z = b2.z,
-    p.b2 = p.b2
+    b2.p = b2.p
   )
 }
