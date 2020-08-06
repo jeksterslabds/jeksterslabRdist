@@ -228,8 +228,10 @@ Applications of Some Measures of Multivariate Skewness and Kurtosis in Testing N
   <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>3</span>
 )
 <span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>MASS</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/MASS/man/mvrnorm.html'>mvrnorm</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='no'>mu</span>, <span class='kw'>Sigma</span> <span class='kw'>=</span> <span class='no'>Sigma</span>)
-<span class='fu'>mardiaskew</span>(<span class='no'>X</span>)</div><div class='output co'>#&gt;           b1        chisq           df            p 
-#&gt;  1.510158866 25.169314434 10.000000000  0.005033647 </div></pre>
+<span class='fu'>mardiaskew</span>(<span class='no'>X</span>)</div><div class='output co'>#&gt;                 b1           b1.chisq      b1.correction b1.chisq.corrected 
+#&gt;        1.510158866       25.169314434        1.030152993       25.928244596 
+#&gt;              b1.df               b1.p     b1.p.corrected 
+#&gt;       10.000000000        0.005033647        0.003837901 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

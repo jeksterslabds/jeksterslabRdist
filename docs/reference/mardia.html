@@ -172,10 +172,12 @@
   <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>3</span>
 )
 <span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>MASS</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/MASS/man/mvrnorm.html'>mvrnorm</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='no'>mu</span>, <span class='kw'>Sigma</span> <span class='kw'>=</span> <span class='no'>Sigma</span>)
-<span class='fu'>mardia</span>(<span class='no'>X</span>)</div><div class='output co'>#&gt;           b1     b1.chisq        b1.df         b1.p           b2         b2.z 
-#&gt;  1.510158866 25.169314434 10.000000000  0.005033647 15.907980187  0.828868717 
-#&gt;         p.b2 
-#&gt;  0.407178699 </div></pre>
+<span class='fu'>mardia</span>(<span class='no'>X</span>)</div><div class='output co'>#&gt;                 b1           b1.chisq      b1.correction b1.chisq.corrected 
+#&gt;        1.510158866       25.169314434        1.030152993       25.928244596 
+#&gt;              b1.df               b1.p     b1.p.corrected                 b2 
+#&gt;       10.000000000        0.005033647        0.003837901       15.907980187 
+#&gt;               b2.z               b2.p 
+#&gt;        0.828868717        0.407178699 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

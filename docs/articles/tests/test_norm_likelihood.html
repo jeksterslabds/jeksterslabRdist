@@ -91,7 +91,7 @@
       <h1 data-toc-skip>Test: Normal - Likelihood</h1>
                         <h4 class="author">Ivan Jacob Agaloos Pesigan</h4>
             
-            <h4 class="date">2020-08-03</h4>
+            <h4 class="date">2020-08-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jeksterslabds/jeksterslabRdist/blob/master/vignettes/tests/test_norm_likelihood.Rmd"><code>vignettes/tests/test_norm_likelihood.Rmd</code></a></small>
       <div class="hidden name"><code>test_norm_likelihood.Rmd</code></div>
@@ -156,12 +156,12 @@
 <tr class="even">
 <td align="left"><code>mu</code></td>
 <td align="left">Population mean (<span class="math inline">\(\mu\)</span>).</td>
-<td align="right">1.190910</td>
+<td align="right">1.305921</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>sigma</code></td>
 <td align="left">Population standard deviation (<span class="math inline">\(\sigma\)</span>).</td>
-<td align="right">1.529556</td>
+<td align="right">1.449006</td>
 </tr>
 </tbody>
 </table>
@@ -214,12 +214,12 @@
 <tr class="even">
 <td align="left"><code>x_bar</code></td>
 <td align="left">Sample mean (<span class="math inline">\(\bar{x}\)</span>).</td>
-<td align="right">1.280923</td>
+<td align="right">1.236637</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>s</code></td>
 <td align="left">Sample standard deviation (<span class="math inline">\(s\)</span>).</td>
-<td align="right">1.761340</td>
+<td align="right">1.698222</td>
 </tr>
 </tbody>
 </table>
@@ -343,9 +343,9 @@
 <th align="right">normL</th>
 </tr></thead>
 <tbody><tr class="odd">
-<td align="right">99.77028</td>
-<td align="right">99.77028</td>
-<td align="right">99.77028</td>
+<td align="right">98.20025</td>
+<td align="right">98.20025</td>
+<td align="right">98.20025</td>
 </tr></tbody>
 </table>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(
@@ -365,9 +365,9 @@
 <th align="right">normL</th>
 </tr></thead>
 <tbody><tr class="odd">
-<td align="right">199.5406</td>
-<td align="right">199.5406</td>
-<td align="right">199.5406</td>
+<td align="right">196.4005</td>
+<td align="right">196.4005</td>
+<td align="right">196.4005</td>
 </tr></tbody>
 </table>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(
@@ -415,21 +415,21 @@
 <tbody>
 <tr class="odd">
 <td align="left"><span class="math inline">\(\mu\)</span></td>
-<td align="right">1.190910</td>
-<td align="right">1.280923</td>
-<td align="right">1.280715</td>
-<td align="right">1.280923</td>
-<td align="right">1.280715</td>
-<td align="right">1.280923</td>
+<td align="right">1.305921</td>
+<td align="right">1.236637</td>
+<td align="right">1.236839</td>
+<td align="right">1.236637</td>
+<td align="right">1.236839</td>
+<td align="right">1.236637</td>
 </tr>
 <tr class="even">
 <td align="left"><span class="math inline">\(\sigma\)</span></td>
-<td align="right">1.529556</td>
-<td align="right">1.761340</td>
-<td align="right">1.743644</td>
-<td align="right">1.743638</td>
-<td align="right">1.743644</td>
-<td align="right">1.743638</td>
+<td align="right">1.449006</td>
+<td align="right">1.698222</td>
+<td align="right">1.681174</td>
+<td align="right">1.681154</td>
+<td align="right">1.681174</td>
+<td align="right">1.681154</td>
 </tr>
 </tbody>
 </table>
@@ -447,12 +447,12 @@
 )
 <span class="co">#&gt; Unit: microseconds</span>
 <span class="co">#&gt;               expr   min     lq    mean median     uq    max neval</span>
-<span class="co">#&gt;           dnorm_ll 1.682 1.8625 3.26269 2.0965 3.9370 29.189   100</span>
-<span class="co">#&gt;             normll 1.115 1.2300 2.41323 1.4310 2.6555 17.255   100</span>
-<span class="co">#&gt;   normll_neg_false 1.133 1.2730 2.46395 1.4610 3.6470  9.064   100</span>
-<span class="co">#&gt;          dnorm_2ll 1.651 1.8130 2.99145 2.0355 3.7415 14.582   100</span>
-<span class="co">#&gt;            norm2ll 1.087 1.2060 3.05031 1.4605 3.3555 63.114   100</span>
-<span class="co">#&gt;  norm2ll_neg_false 1.122 1.2300 2.08949 1.4325 2.7660  8.028   100</span>
+<span class="co">#&gt;           dnorm_ll 1.629 1.7430 1.90184 1.8705 1.9815  2.765   100</span>
+<span class="co">#&gt;             normll 1.043 1.1980 1.36585 1.3175 1.4650  2.963   100</span>
+<span class="co">#&gt;   normll_neg_false 1.067 1.1880 1.50028 1.3425 1.4710 16.832   100</span>
+<span class="co">#&gt;          dnorm_2ll 1.611 1.7655 2.30403 1.8960 2.0470 32.517   100</span>
+<span class="co">#&gt;            norm2ll 1.054 1.1865 1.48943 1.3040 1.4855 12.895   100</span>
+<span class="co">#&gt;  norm2ll_neg_false 1.065 1.1600 1.30007 1.2515 1.4100  2.060   100</span>
 <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span>(
   <span class="kw">ml_dnorm_optim</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/opt.html">opt</a></span>(<span class="kw">FUN</span> <span class="kw">=</span> <span class="no">foo</span>, <span class="kw">start_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">mu</span>, <span class="no">sigma</span>), <span class="kw">optim</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">x</span> <span class="kw">=</span> <span class="no">x</span>),
   <span class="kw">ml_dnorm_nlminb</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/opt.html">opt</a></span>(<span class="kw">FUN</span> <span class="kw">=</span> <span class="no">foo</span>, <span class="kw">start_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">mu</span>, <span class="no">sigma</span>), <span class="kw">optim</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">x</span> <span class="kw">=</span> <span class="no">x</span>),
@@ -461,10 +461,10 @@
 )
 <span class="co">#&gt; Unit: microseconds</span>
 <span class="co">#&gt;               expr     min       lq     mean   median       uq      max neval</span>
-<span class="co">#&gt;     ml_dnorm_optim 129.741 158.6225 192.3590 166.6660 203.5815  514.707   100</span>
-<span class="co">#&gt;    ml_dnorm_nlminb 128.827 163.4735 193.6156 173.5095 213.5620  474.803   100</span>
-<span class="co">#&gt;   ml_normobj_optim 114.126 152.7185 179.0555 160.2955 179.2890  487.427   100</span>
-<span class="co">#&gt;  ml_normobj_nlminb 120.673 155.2080 248.7500 161.9890 225.4450 6192.885   100</span></pre></body></html></div>
+<span class="co">#&gt;     ml_dnorm_optim 129.422 144.3785 177.3860 169.5965 183.1555  534.880   100</span>
+<span class="co">#&gt;    ml_dnorm_nlminb 127.350 154.1750 199.9750 162.7035 174.8530 2936.478   100</span>
+<span class="co">#&gt;   ml_normobj_optim 118.128 149.8655 172.3927 163.0760 174.9120  345.270   100</span>
+<span class="co">#&gt;  ml_normobj_nlminb 116.825 154.4895 177.6536 158.1360 179.7355  358.439   100</span></pre></body></html></div>
 </div>
 <div id="testthat" class="section level2">
 <h2 class="hasAnchor">
